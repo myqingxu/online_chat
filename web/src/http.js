@@ -5,7 +5,6 @@ const http = axios.create({
 })
 
 http.interceptors.request.use(req => {
-  console.log(req);
   const token = window.localStorage.getItem('token')
   if (token) {
     req.headers.Authorization = 'Bearer ' + token

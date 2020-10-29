@@ -7,6 +7,7 @@ import Contacts from '../views/Contacts.vue'
 import My from '../views/My.vue'
 import Login from '../views/Login.vue'
 import Regist from '../views/Regist.vue'
+import PersonalInfo from '../views/PersonalInfo.vue'
 Vue.use(Router)
 
 const router = new Router({
@@ -55,6 +56,14 @@ const router = new Router({
       meta: {
         title: '注册',
         needLogin: false
+      }
+    },
+    {
+      path: '/personalInfo',
+      component: PersonalInfo,
+      meta: {
+        title: '个人信息',
+        needLogin: true
       }
     }
   ]

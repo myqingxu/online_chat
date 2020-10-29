@@ -18,7 +18,7 @@
         <van-button round block type="info" native-type="submit">
           登录
         </van-button>
-        <van-button round block type="warning" style='margin-top:15px;' to='/regist'>
+        <van-button round block type="warning" native-type='button' style='margin-top:15px;' @click="toRegist">
           注册
         </van-button>
       </div>
@@ -41,6 +41,9 @@ export default {
     }
   },
   methods: {
+    toRegist() {
+      this.$router.push({ path: '/regist' })
+    },
     async onSubmit() {
       try {
         const res = await this.$http.post('/login', {

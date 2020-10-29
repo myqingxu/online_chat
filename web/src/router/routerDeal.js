@@ -6,10 +6,10 @@ module.exports = router => {
 
     const token = window.localStorage.getItem('token')
 
-    if (!needToLogin) next()
-
-    if (needToLogin && token) next()
+    if (!needToLogin) return next()
     
-    else next({ path: '/login' })
+    if (needToLogin && token) return next()
+
+    else return next({ path: '/login' })
   })
 }
