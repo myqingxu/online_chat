@@ -4,6 +4,19 @@ module.exports = app => {
   const bcrypt = require('bcrypt')
   const jwt = require('jsonwebtoken')
 
+  app.use(async (req, res, next) => {
+    const token = String(req.headers.authorization || '').split(' ').pop()
+    const id = jwt.verify(token, req.app.get('secret'))['_id']
+    if (!id) {
+      return res.send({
+        code: 999,
+        msg: '登录状态异常，请重新登录'
+      })
+    }
+    app.set('id', id)
+    next()
+  })
+
   // 注册接口
   app.post('/api/reg', async (req, res) => {
     const { username, password } = req.body
@@ -61,16 +74,9 @@ module.exports = app => {
     })
   })
 
-  // 个人信息接口
+  // 个人信息接口2
   app.post('/api/getUserInfo', async (req, res) => {
-    const token = String(req.headers.authorization || '').split(' ').pop()
-    const id = jwt.verify(token, req.app.get('secret'))['_id']
-    if (!id) {
-      return res.send({
-        code: 999,
-        msg: '登录状态异常，请重新登录'
-      })
-    }
+    const id = req.app.get('id')
     const user = await Info.findById(id)
     res.send({
       code: 200,
@@ -81,8 +87,7 @@ module.exports = app => {
 
   // 上传头像
   app.post('/api/uploadHeader', async (req, res) => {
-    const token = String(req.headers.authorization || '').split(' ').pop()
-    const id = jwt.verify(token, req.app.get('secret'))['_id']
+    const id = req.app.get('id')
     const url = req.body.url
     if (!url) {
       return res.send({
@@ -90,17 +95,27 @@ module.exports = app => {
         msg: '请上传头像'
       })
     }
-    if (!id) {
-      return res.send({
-        code: 999,
-        msg: '登录状态异常，请重新登录'
-      })
-    }
-
     await Info.updateOne({ _id: id }, { headerImg: url })
     return res.send({
       code: 200,
       msg: '上传成功'
+    })
+  })
+
+  // 修改姓名
+  app.post('/api/updateUserName', async (req, res) => {
+    const id = req.app.get('id')
+    const name = req.body.name
+    if (!name) {
+      return res.send({
+        code: 502,
+        msg: '请输入新的姓名'
+      })
+    }
+    await Info.updateOne({ _id:id }, { name })
+    return res.send({
+      code: 200,
+      msg: '修改成功'
     })
   })
 }

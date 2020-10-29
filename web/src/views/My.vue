@@ -2,11 +2,11 @@
   <div class="my">
     <div class="header" @click.stop.prevent='$router.push({ path: "/personalInfo" })'>
       <div class="header_img">
-        <img src="https://img.yzcdn.cn/vant/cat.jpeg" alt="">
+        <img :src="headerUrl" alt="">
       </div>
       <div class="content">
-        <p class="name">用</p>
-        <p class="user_name"><span>用户名：xxxxx</span><van-icon name="arrow" /></p>
+        <p class="name">{{ name }}</p>
+        <p class="user_name"><span>用户名：{{ username }}</span><van-icon name="arrow" /></p>
       </div>
     </div>
     <div class="fill_box"></div>
@@ -20,7 +20,11 @@ export default {
     [Icon.name]: Icon
   },
   data() {
-    return {}
+    return {
+      name: '',
+      headerUrl: '',
+      username: ''
+    }
   },
   mounted() {
     this.loadInfo()
@@ -29,6 +33,9 @@ export default {
     async loadInfo() {
       try {
         const res = await this.$http.post('/getUserInfo')
+        this.name = res.data.name
+        this.headerUrl = res.data.headerImg
+        this.username = res.data.username
         console.log('res:', res)
       } catch (err) {
         Toast(err)
@@ -45,6 +52,7 @@ export default {
 }
 .my{
   min-height 100vh;
+  overflow hidden
   >.header{
     display flex;
     padding 0px 20px;
