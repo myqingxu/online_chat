@@ -62,7 +62,7 @@ export default {
     },
     async submitNewName() {
       try {
-        if (!this.name) {
+        if (!this.newName) {
           Toast('请输入新的姓名')
           return
         }

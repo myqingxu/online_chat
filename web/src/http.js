@@ -14,10 +14,16 @@ http.interceptors.request.use(req => {
 })
 
 http.interceptors.response.use(res => {
-  if (res.data.code !== 200) {
-    return Promise.reject(res.data.msg)
+  switch(res.data.code) {
+    case 200:
+      return Promise.resolve(res.data)
+    case 999:
+      window.localStorage.removeItem('token')
+      window.location.reload()
+      return Promise.reject(res.data.msg)
+    default:
+      return Promise.reject(res.data.msg)
   }
-  return Promise.resolve(res.data)
 }, err => {
   console.log(JSON.stringify(err));
   return '请求失败'

@@ -8,6 +8,8 @@ import My from '../views/My.vue'
 import Login from '../views/Login.vue'
 import Regist from '../views/Regist.vue'
 import PersonalInfo from '../views/PersonalInfo.vue'
+import AddFriend from '../views/AddFriend.vue'
+import NewFriend from '../views/NewFriend.vue'
 Vue.use(Router)
 
 const router = new Router({
@@ -63,6 +65,22 @@ const router = new Router({
       component: PersonalInfo,
       meta: {
         title: '个人信息',
+        needLogin: true
+      }
+    },
+    {
+      path: '/addFriend',
+      component: AddFriend,
+      meta: {
+        title: '添加好友',
+        needLogin: true
+      }
+    },
+    {
+      path: '/newFriend',
+      component: NewFriend,
+      meta: {
+        title: '新的朋友',
         needLogin: true
       }
     }

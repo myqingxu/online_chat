@@ -10,13 +10,17 @@
       </div>
     </div>
     <div class="fill_box"></div>
+    <div class="logout">
+      <van-button @click.stop='logout'>退出登录</van-button>
+    </div>
   </div>
 </template>
 
 <script>
-import { Icon, Toast } from 'vant'
+import { Icon, Toast, Button } from 'vant'
 export default {
   components: {
+    [Button.name]: Button,
     [Icon.name]: Icon
   },
   data() {
@@ -40,6 +44,10 @@ export default {
       } catch (err) {
         Toast(err)
       }
+    },
+    logout() {
+      window.localStorage.removeItem('token')
+      this.$router.go(0);
     }
   }
 }
@@ -53,6 +61,14 @@ export default {
 .my{
   min-height 100vh;
   overflow hidden
+  >.logout{
+    width 100%;
+    position fixed;
+    bottom 100px;
+    >>>.van-button{
+      width 100%;
+    }
+  }
   >.header{
     display flex;
     padding 0px 20px;

@@ -50,7 +50,7 @@ export default {
           'username': this.username,
           'password': this.password
         })
-        window.localStorage.setItem("token",res.data);
+        res.data && window.localStorage.setItem("token",res.data);
         this.$router.push({ path: '/contacts' })
         Toast(res.msg)
       } catch (err) {
