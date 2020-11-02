@@ -6,7 +6,7 @@
     </div>
 
     <div class="header">
-      <div>
+      <div @click.stop='$router.push({ path: "/newFriend" })'>
         <img src="../assets/images/icon_new_friend.png" alt="">
         <span>新的朋友</span>
       </div>
@@ -19,17 +19,6 @@
         <p>{{ item.name }}</p>
       </div>
     </div>
-    <!-- <van-index-bar>
-      <van-index-anchor index="A" />
-      <van-cell title="文本" />
-      <van-cell title="文本" />
-      <van-cell title="文本" />
-
-      <van-index-anchor index="B" />
-      <van-cell title="文本" />
-      <van-cell title="文本" />
-      <van-cell title="文本" />
-    </van-index-bar> -->
   </div>
 </template>
 

@@ -171,10 +171,7 @@ module.exports = app => {
         msg: '该用户已经是你的好友，请勿重复添加'
       })
     }
-    await Info.update({ _id: user_id }, { $addToSet: { newFriend: {
-      status: 'no_pass',
-      _id: id
-    }}})
+    await Info.update({ _id: user_id }, { $addToSet: { newFriend: id}})
     res.send({
       code: 200,
       msg: 'ok',
@@ -201,13 +198,28 @@ module.exports = app => {
     const user = await Info.findById(id)
     const newFriends = user.newFriend
     const ids = newFriends.map(item => {
-      return item.id
+      return item
     })
     const newUsers = await Info.find({ _id: { $in: ids } })
     res.send({
       code: 200,
       msg: 'ok',
       data: newUsers
+    })
+  })
+
+  // 同意好友申请
+  app.post('/api/passNewFriend', async (req, res) => {
+    const id =  res.app.get('id') // 用户id
+    const user_id = req.body.id
+
+    await Info.update({ _id: id }, { $addToSet: { friend: user_id}})
+    await Info.update({ _id: user_id }, { $addToSet: { friend: id}})
+    await Info.update({ _id: id}, { $pull: { user_id } })
+    res.send({
+      code: 200,
+      msg: 'ok',
+      data: '同意好友申请'
     })
   })
 }
